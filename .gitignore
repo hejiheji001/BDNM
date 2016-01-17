@@ -1,4 +1,3 @@
-*\.DS_Store
-*\cookie.file
-*\token.txt
-*\userinfo.properties
+cookie.file
+token.txt
+userinfo.properties
