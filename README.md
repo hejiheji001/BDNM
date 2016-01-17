@@ -1,4 +1,7 @@
 # BDNM
+Add a link to Baidu Yun Offline Download.
+Support what Baidu Yun Offiline supported - I mean the link type
+
 ##java -jar xxx.jar = GUI Mode
 >>PS1: Will save your username and password into userinfo.properties, no encryption
 
