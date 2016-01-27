@@ -132,7 +132,8 @@ public class ShowGUI extends JFrame {
                             return;
                         }
 
-                        iou.saveUserInfo(userName, password);
+//                        TODO
+                        iou.saveUserInfo(userName, password, "/");
 
                         Thread t = new Thread(new YunOffline(userName, password, source, true));
                         t.setName("New Thread Download");
