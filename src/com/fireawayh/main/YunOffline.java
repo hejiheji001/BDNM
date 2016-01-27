@@ -85,6 +85,65 @@ public class YunOffline implements Runnable {
             {"400037", "未知错误 400037"}
     };
 
+    public YunOffline(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public YunOffline(String email, String password, String source_url, boolean newThread) {
+        this.email = email;
+        this.password = password;
+        this.source_url = source_url;
+        this.newThread = newThread;
+    }
+
+    public YunOffline(String panToken, String source_url, String newVcode, String newInput) {
+        this.panToken = panToken;
+        this.source_url = source_url;
+        this.newVcode = newVcode;
+        this.newInput = newInput;
+    }
+
+    public static void main(String[] args) {
+        argsList = new ArrayList<>(Arrays.asList(args));
+        if (argsList.isEmpty()) {
+            new ShowGUI().showGui();
+        } else {
+            switch (args[0]) {
+                case "-cli":
+                    String userName = args[1];
+                    String password = args[2];
+                    YunOffline BD = new YunOffline(userName, password);
+                    BD.setSource_url(args[3]);
+                    if (BD.initYunPan()) {
+                        BD.getYunPanToken();
+                        BD.saveToYunPan("", "");
+                    }
+                    break;
+                case "-conf":
+                    try {
+                        Properties prop = new Properties();
+                        File file = new File(args[1]);
+                        if (file.exists()) {
+                            prop.load(new FileInputStream(file));
+                            YunOffline BD2 = new YunOffline(prop.getProperty("Username"), prop.getProperty("Password"));
+                            BD2.setSource_url(args[2]);
+                            BD2.setSavepath(prop.getProperty("Savepath"));
+                            if (BD2.initYunPan()) {
+                                BD2.getYunPanToken();
+                                BD2.saveToYunPan("", "");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "-h":
+                    break;
+            }
+        }
+    }
+
     public String getErrMsg(String errCode){
         String msg = "";
         for (String[] s : err){
@@ -107,74 +166,14 @@ public class YunOffline implements Runnable {
         return this.panToken;
     }
 
-    public void setPanToken(String panToken) {
-        this.panToken = panToken;
-    }
-
-    public YunOffline(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-
-    public YunOffline(String email, String password, String source_url, boolean newThread) {
-        this.email = email;
-        this.password = password;
-        this.source_url = source_url;
-        this.newThread = newThread;
-    }
-
-    public YunOffline(String panToken, String source_url, String newVcode, String newInput) {
-        this.panToken = panToken;
-        this.source_url = source_url;
-        this.newVcode = newVcode;
-        this.newInput = newInput;
-    }
-
 //    public void getCloudInfo() throws Exception {
 //        URL u = new URL("https://pcs.baidu.com/rest/2.0/pcs/quota?method=info&access_token=" + token);
 //        URLConnection conn = u.openConnection();// 打开网页链接
 //        // 获取用户云盘信息
 //    }
 
-    public static void main(String[] args) {
-        argsList = new ArrayList<>(Arrays.asList(args));
-        if (argsList.isEmpty()) {
-            new ShowGUI().showGui();
-        } else {
-            switch (args[0]) {
-                case "-cli":
-                    String userName = args[1];
-                    String password = args[2];
-                    YunOffline BD = new YunOffline(userName, password);
-                    BD.setSource_url(args[3]);
-                    if(BD.initYunPan()){
-                        BD.getYunPanToken();
-                        BD.saveToYunPan("", "");
-                    }
-                    break;
-                case "-conf":
-                    try {
-                        Properties prop = new Properties();
-                        File file = new File(args[1]);
-                        if (file.exists()) {
-                            prop.load(new FileInputStream(file));
-                            YunOffline BD2 = new YunOffline(prop.getProperty("Username"), prop.getProperty("Password"));
-                            BD2.setSource_url(args[2]);
-                            BD2.setSavepath(prop.getProperty("Savepath"));
-                            if(BD2.initYunPan()){
-                                BD2.getYunPanToken();
-                                BD2.saveToYunPan("", "");
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "-h":
-                    break;
-            }
-        }
+    public void setPanToken(String panToken) {
+        this.panToken = panToken;
     }
 
     public void setSource_url(String source_url) {
@@ -190,7 +189,7 @@ public class YunOffline implements Runnable {
             result = true;
         } else {
             System.err.println("正在登录百度.../Login Now...");
-//            preLogin(loginClient);
+            preLogin(loginClient);
             initToken(loginClient);
 
             HttpPost post = new HttpPost(LOGIN_POST_URL);
@@ -219,7 +218,7 @@ public class YunOffline implements Runnable {
                                 loginVcode = true;
                                 System.err.println("使用验证码重新登录.../Login Again With Verify Code...");
                                 post.abort();
-                                initYunPan();
+                                result = initYunPan();
                             }
                         }
                     }
