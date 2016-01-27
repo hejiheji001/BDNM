@@ -129,7 +129,7 @@ public class YunOffline implements Runnable {
                         BD.saveToYunPan("", "");
                     }
                     break;
-                case "-cli_conf":
+                case "-conf":
                     try {
                         Properties prop = new Properties();
                         File file = new File(args[1]);
