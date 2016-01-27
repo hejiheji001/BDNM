@@ -31,8 +31,8 @@
       <file leaf-file-name="YunOffline.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/fireawayh/main/YunOffline.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33229813">
-              <caret line="131" column="29" selection-start-line="131" selection-start-column="29" selection-end-line="131" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.05279503">
+              <caret line="119" column="14" selection-start-line="119" selection-start-column="14" selection-end-line="119" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -374,7 +374,7 @@
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
     <property name="FullScreen" value="true" />
     <property name="last.edited.regexp" value="codeString=jxIcaptchaservice663134322f6c51686d7556314b5156554a766d4842566f64796e2b3433496a766d47334d6f35746d41326d61343954626c6f374967567068547148506f34555a316e66532b50757041364943317971354c6a326e4e44693730515a684e365562467439314f66327679747633774b65676555715750657173336c72614b2b522b4a4f3777426c6d4c6862766c62627967526150773344337250634d49544759586341505278596944552b525472527a64794f32366e454273687665636e7750396b37362f4d516474786f6e3131794d6d5a466e7761686b61465770476a6569717a4d775863646c7a59715a4438565575722f735145726b386a37636776654838376c325962326d465666653233474f594c33524e715338426848345347524e3373746c42576464324854534d342b54585a38326b733465514464337050702b6b2f5a5430696d77553041596f" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/META-INF" />
+    <property name="last_opened_file_path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home/lib/javafx-mx.jar!/" />
   </component>
   <component name="RunManager" selected="Application.YunOffline">
     <configuration default="false" name="YunOffline" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -772,12 +772,12 @@
       <workItem from="1453197011045" duration="788000" />
       <workItem from="1453481068105" duration="1282000" />
       <workItem from="1453849793642" duration="11424000" />
-      <workItem from="1453897118007" duration="2416000" />
+      <workItem from="1453897118007" duration="2638000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39957000" />
+    <option name="totallyTimeSpent" value="40179000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="0" />
@@ -1490,8 +1490,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/fireawayh/main/YunOffline.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33229813">
-          <caret line="131" column="29" selection-start-line="131" selection-start-column="29" selection-end-line="131" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.05279503">
+          <caret line="119" column="14" selection-start-line="119" selection-start-column="14" selection-end-line="119" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1547,7 +1547,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.7</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1584,7 +1584,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>lib</last-edited>
+          <last-edited>javafx-mx</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
