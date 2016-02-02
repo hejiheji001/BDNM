@@ -1,7 +1,5 @@
 package com.fireawayh.util;
 
-import com.fireawayh.main.YunOffline;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -77,9 +75,10 @@ public class ShowImg extends JFrame implements Runnable {
                 super.mouseClicked(e);
                 setCode(input.getText());
                 frame.dispose();
-                Thread t = new Thread(new YunOffline(yunToken, source_url, newVcode, input.getText()));
-                t.setName("New Thread With Code");
-                t.start();
+                System.out.print("Get Code: " + getCode());
+//                Thread t = new Thread(new YunOffline(yunToken, source_url, newVcode, input.getText()));
+//                t.setName("New Thread With Code");
+//                t.start();
             }
         });
     }

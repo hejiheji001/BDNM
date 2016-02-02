@@ -45,10 +45,10 @@ public class YunOffline implements Runnable {
     private String token;
     private String panToken = "";
     private String source_url;
-    private String newVcode;
-    private String newInput;
+    private volatile String newVcode;
+    private volatile String newInput;
     private String savepath = "/";
-    private boolean loginVcode = false;
+    private boolean loginVcode = true;
     private boolean newThread = false;
     private BasicCookieStore cookieStore = new BasicCookieStore();
     private String path;
@@ -144,6 +144,19 @@ public class YunOffline implements Runnable {
         }
     }
 
+    public synchronized void captchaSetter(String v, String c) {
+        newVcode = v;
+        newInput = c;
+    }
+
+    public synchronized String getC() {
+        return newInput;
+    }
+
+    public synchronized String getV() {
+        return newVcode;
+    }
+
     public String getErrMsg(String errCode){
         String msg = "";
         for (String[] s : err){
@@ -208,17 +221,35 @@ public class YunOffline implements Runnable {
                         System.err.println("登陆成功!/Login Success!");
                     }else{
                         System.err.println(getErrMsg(errCode));
-                        if(errCode.equals("257") || errCode.equals("6")){
+                        boolean code = false;
+                        if (errCode.equals("257")) {
+                            code = true;
+                            System.err.println("Need Captcha");
+                        } else if (errCode.equals("6")) {
+                            code = true;
+                            System.err.println("Captcha wrong");
+                        }
+                        if (code) {
                             pattern = Pattern.compile("codeString=(.*?)&");
                             matcher = pattern.matcher(content);
                             if (matcher.find()) {
+//                                if(newVcode != null && newInput != null){
+//                                    result = initYunPan();
+//                                }else{
                                 this.newVcode = matcher.group(1);
                                 String img = "http://passport.baidu.com/cgi-bin/genimage?" + newVcode;
                                 newInput = enterCaptcha(img);
-                                loginVcode = true;
                                 System.err.println("使用验证码重新登录.../Login Again With Verify Code...");
                                 post.abort();
+//                                    if(newInput != null) {
                                 result = initYunPan();
+//                                    }
+//                                while (this.newInput == null){
+//                                    System.err.println("Waiting for Captcha" + getC());
+//                                    Thread.sleep(3000);
+//                                }
+//                                result = initYunPan();
+//                                }
                             }
                         }
                     }
@@ -415,6 +446,7 @@ public class YunOffline implements Runnable {
 
     public String saveToYunPan(String vcode, String input) {
         String taskid  = "";
+        loginVcode = false;
         System.err.println("百度云Token/YunPan Token: " + panToken);
         try {
             String saveUrl = "http://pan.baidu.com/rest/2.0/services/cloud_dl?channel=chunlei&clienttype=0&web=1&bdstoken=" + panToken;
@@ -477,6 +509,10 @@ public class YunOffline implements Runnable {
         } else {
             if(loginVcode){
                 initYunPan();
+
+//                Thread t = new Thread(new YunOffline);
+//                System.out.print(this.newInput);
+//                captchaSetter(this.newVcode, this.newInput);
             }else {
                 System.out.println("Input is: " + newInput);
                 System.out.println("Code is: " + newVcode);
@@ -491,10 +527,17 @@ public class YunOffline implements Runnable {
     private String enterCaptcha(String imgSrc) {
         System.out.println("Enter Captcha");
         if (argsList.isEmpty()) {
-            Thread t = new Thread(new ShowImg(imgSrc, panToken, newVcode, source_url));
-            t.setName("New Thread Get Code");
-            t.start();
-            return null;
+            ShowImg s = new ShowImg(imgSrc, panToken, newVcode, source_url);
+            s.showFrame();
+            s.loadURLImage(imgSrc);
+            while (s.getCode() == null) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return s.getCode();
         } else {
             System.out.println("Please Instal jp2a, apt-get install jp2a, if you are using Linux");
             System.out.println("Or open this image in browser and input code: " + imgSrc);
