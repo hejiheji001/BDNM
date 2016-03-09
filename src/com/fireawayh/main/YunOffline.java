@@ -45,6 +45,7 @@ public class YunOffline implements Runnable {
     private String token;
     private String panToken = "";
     private String source_url;
+    private List<String> source_urls = new ArrayList<>();
     private volatile String newVcode;
     private volatile String newInput;
     private String savepath = "/";
@@ -90,11 +91,12 @@ public class YunOffline implements Runnable {
         this.password = password;
     }
 
-    public YunOffline(String email, String password, String source_url, boolean newThread) {
+    public YunOffline(String email, String password, String source_url, String path, boolean newThread) {
         this.email = email;
         this.password = password;
         this.source_url = source_url;
         this.newThread = newThread;
+        this.savepath = path;
     }
 
     public YunOffline(String panToken, String source_url, String newVcode, String newInput) {
@@ -102,6 +104,14 @@ public class YunOffline implements Runnable {
         this.source_url = source_url;
         this.newVcode = newVcode;
         this.newInput = newInput;
+    }
+
+    public YunOffline(String email, String password, String path, boolean newThread, List<String> source_urls) {
+        this.email = email;
+        this.password = password;
+        this.newThread = newThread;
+        this.savepath = path;
+        this.source_urls = source_urls;
     }
 
     public static void main(String[] args) {
@@ -504,7 +514,21 @@ public class YunOffline implements Runnable {
             System.out.println("New Thread");
             if(initYunPan()){
                 getYunPanToken();
-                saveToYunPan(newVcode, newInput);
+                if (source_urls.size() == 0) {
+                    saveToYunPan(newVcode, newInput);
+                } else {
+                    for (String s : source_urls) {
+                        this.source_url = s;
+                        saveToYunPan(newVcode, newInput);
+                        System.out.println("Rest 2 seconds");
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println("Finished!");
+                }
             }
         } else {
             if(loginVcode){

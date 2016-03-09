@@ -15,10 +15,11 @@ import java.util.Properties;
 /**
  * By FireAwayH on 16/01/2016.
  */
-public class ShowGUI extends JFrame {
+public class ShowGUI extends JFrame implements Runnable {
     private TextField passwordText = new TextField();
     private TextField idText = new TextField();
     private TextField sourceURL = new TextField();
+    private TextField path = new TextField();
     private Frame frame = new Frame("Baidu Yun Offline");
     private Dialog dialog = new Dialog(frame, "Hint", true);
     private IOUtils iou = new IOUtils();
@@ -28,16 +29,37 @@ public class ShowGUI extends JFrame {
         new ShowGUI().showGui();
     }
 
+    @Override
+    public void run() {
+//        showGui();
+    }
+
     public void showGui() {
+        showGui("", false, null);
+    }
+
+    public void showGui(String source) {
+        showGui(source, false, null);
+    }
+
+    public void showGui(java.util.List<String> list) {
+        showGui("Playlist with " + list.size() + " songs", true, list);
+    }
+
+    public void showGui(String source, boolean isList, java.util.List<String> list) {
+        System.out.print(source);
+
         Thread t = new Thread(new Logger());
         t.start();
 
         Label idLabel = new Label("Username:");
         Label passwordLabel = new Label("Password:");
         Label sourceLabel = new Label("Source:");
+        Label pathLabel = new Label("YunPan Path:");
         idText.setColumns(15);
         passwordText.setColumns(15);
         sourceURL.setColumns(15);
+        path.setColumns(15);
         Button start = new Button("Start!");
         Button stop = new Button("Stop ALl!");
         frame.add(idLabel);
@@ -46,10 +68,13 @@ public class ShowGUI extends JFrame {
         frame.add(passwordText);
         frame.add(sourceLabel);
         frame.add(sourceURL);
+        frame.add(pathLabel);
+        frame.add(path);
+        sourceURL.setText(source);
         frame.add(start);
         frame.add(stop);
         frame.setLayout(new FlowLayout());
-        frame.setSize(250, 150);
+        frame.setSize(250, 200);
         frame.setResizable(false);
         frame.setLocation(fu.getCenter(frame));
         frame.setVisible(true);
@@ -68,6 +93,7 @@ public class ShowGUI extends JFrame {
                 prop.load(new FileInputStream(file));
                 idText.setText(prop.getProperty("Username"));
                 passwordText.setText(prop.getProperty("Password"));
+                path.setText(prop.getProperty("Path"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,6 +136,7 @@ public class ShowGUI extends JFrame {
                         String userName = idText.getText();
                         String password = passwordText.getText();
                         String source = sourceURL.getText();
+                        String pathText = path.getText();
 
                         if (userName.isEmpty()) {
                             l.setText("Username id required");
@@ -125,6 +152,13 @@ public class ShowGUI extends JFrame {
                             return;
                         }
 
+                        if (pathText.isEmpty()) {
+                            l.setText("Path of YunPan required. / means root path");
+                            dialog.add(l);
+                            dialog.setVisible(true);
+                            return;
+                        }
+
                         if (source.isEmpty()) {
                             l.setText("Source required");
                             dialog.add(l);
@@ -132,12 +166,17 @@ public class ShowGUI extends JFrame {
                             return;
                         }
 
-//                        TODO
-                        iou.saveUserInfo(userName, password, "/");
+                        iou.saveUserInfo(userName, password, pathText);
 
-                        Thread t = new Thread(new YunOffline(userName, password, source, true));
-                        t.setName("New Thread Download");
-                        t.start();
+                        if (isList) {
+                            Thread t = new Thread(new YunOffline(userName, password, pathText, true, list));
+                            t.setName("New Thread Download");
+                            t.start();
+                        } else {
+                            Thread t = new Thread(new YunOffline(userName, password, source, pathText, true));
+                            t.setName("New Thread Download");
+                            t.start();
+                        }
                     }
                 }
         );
