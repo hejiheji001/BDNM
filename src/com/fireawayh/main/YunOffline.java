@@ -52,9 +52,9 @@ public class YunOffline implements Runnable {
     private boolean loginVcode = true;
     private boolean newThread = false;
     private BasicCookieStore cookieStore = new BasicCookieStore();
-    private String path;
-    private String oldName;
-    private String newName;
+//    private String path;
+//    private String oldName;
+//    private String newName;
 
     private String[][] err = new String[][]{
             {"-1", "系统错误,请您稍后再试"},
@@ -154,18 +154,18 @@ public class YunOffline implements Runnable {
         }
     }
 
-    public synchronized void captchaSetter(String v, String c) {
-        newVcode = v;
-        newInput = c;
-    }
-
-    public synchronized String getC() {
-        return newInput;
-    }
-
-    public synchronized String getV() {
-        return newVcode;
-    }
+//    public synchronized void captchaSetter(String v, String c) {
+//        newVcode = v;
+//        newInput = c;
+//    }
+//
+//    public synchronized String getC() {
+//        return newInput;
+//    }
+//
+//    public synchronized String getV() {
+//        return newVcode;
+//    }
 
     public String getErrMsg(String errCode){
         String msg = "";
@@ -454,8 +454,8 @@ public class YunOffline implements Runnable {
         }
     }
 
-    public String saveToYunPan(String vcode, String input) {
-        String taskid  = "";
+    public boolean saveToYunPan(String vcode, String input) {
+        boolean flag = true;
         loginVcode = false;
         System.err.println("百度云Token/YunPan Token: " + panToken);
         try {
@@ -495,9 +495,10 @@ public class YunOffline implements Runnable {
             if (result.contains("-19")) {
                 String img = jd.object().get("img").toString();
                 this.newVcode = jd.object().get("vcode").toString();
-                enterCaptcha(img);
+                this.newInput = enterCaptcha(img);
+                flag = false;
             } else if (result.contains("task_id")) {
-                taskid = jd.object().get("task_id").toString();
+                String taskid = jd.object().get("task_id").toString();
                 System.out.println("添加任务成功!/Success! ID:" + taskid);
             } else {
                 System.out.println("未知错误/Unknown Error" + result);
@@ -505,7 +506,7 @@ public class YunOffline implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return taskid;
+        return flag;
     }
 
     @Override
@@ -514,17 +515,27 @@ public class YunOffline implements Runnable {
             System.out.println("New Thread");
             if(initYunPan()){
                 getYunPanToken();
+                boolean flag;
                 if (source_urls.size() == 0) {
-                    saveToYunPan(newVcode, newInput);
+                    flag = saveToYunPan(newVcode, newInput);
+                    if (!flag) {
+                        System.out.println("Try Again With Code " + newInput);
+                        saveToYunPan(newVcode, newInput);
+                    }
                 } else {
                     for (String s : source_urls) {
                         this.source_url = s;
-                        saveToYunPan(newVcode, newInput);
-                        System.out.println("Rest 2 seconds");
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        flag = saveToYunPan(newVcode, newInput);
+                        if (!flag) {
+                            System.out.println("Try Again With Code " + newInput);
+                            saveToYunPan(newVcode, newInput);
+                        } else {
+                            System.out.println("Rest 5 seconds");
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     System.out.println("Finished!");
