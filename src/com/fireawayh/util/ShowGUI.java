@@ -35,20 +35,22 @@ public class ShowGUI extends JFrame implements Runnable {
     }
 
     public void showGui() {
-        showGui("", false, null);
+        showGui(null, false, null);
     }
 
-    public void showGui(String source) {
+    public void showGui(String file) {
+        showGui(new String[]{"Batch Rename by rename.txt", file}, false, null);
+    }
+
+    public void showGui(String[] source) {
         showGui(source, false, null);
     }
 
-    public void showGui(java.util.List<String> list) {
-        showGui("Playlist with " + list.size() + " songs", true, list);
+    public void showGui(java.util.List<String[]> list) {
+        showGui(new String[]{"Playlist with " + list.size() + " songs"}, true, list);
     }
 
-    public void showGui(String source, boolean isList, java.util.List<String> list) {
-        System.out.print(source);
-
+    public void showGui(String[] sourceArr, boolean isList, java.util.List<String[]> list) {
         Thread t = new Thread(new Logger());
         t.start();
 
@@ -70,7 +72,7 @@ public class ShowGUI extends JFrame implements Runnable {
         frame.add(sourceURL);
         frame.add(pathLabel);
         frame.add(path);
-        sourceURL.setText(source);
+        sourceURL.setText(sourceArr[0]);
         frame.add(start);
         frame.add(stop);
         frame.setLayout(new FlowLayout());
@@ -81,7 +83,9 @@ public class ShowGUI extends JFrame implements Runnable {
         frame.addWindowListener(
                 new WindowAdapter() {
                     public void windowClosing(WindowEvent e) {
-                        System.exit(0);
+                        frame.dispose();
+                        Thread.currentThread().interrupt();
+                        t.interrupt();
                     }
                 }
         );
@@ -152,7 +156,7 @@ public class ShowGUI extends JFrame implements Runnable {
                             return;
                         }
 
-                        if (pathText.isEmpty()) {
+                        if (!source.contains("rename") && pathText.isEmpty()) {
                             l.setText("Path of YunPan required. / means root path");
                             dialog.add(l);
                             dialog.setVisible(true);
@@ -173,9 +177,17 @@ public class ShowGUI extends JFrame implements Runnable {
                             t.setName("New Thread Download");
                             t.start();
                         } else {
-                            Thread t = new Thread(new YunOffline(userName, password, source, pathText, true));
-                            t.setName("New Thread Download");
-                            t.start();
+                            if (sourceArr[0].indexOf("rename") > -1) {
+                                Thread t = new Thread(new YunOffline(userName, password, sourceArr[1], true));
+                                t.setName("New Thread Rename");
+                                t.start();
+                            } else {
+                                sourceArr[0] = source;
+                                sourceArr[1] = pathText;
+                                Thread t = new Thread(new YunOffline(userName, password, sourceArr, pathText, true));
+                                t.setName("New Thread Download");
+                                t.start();
+                            }
                         }
                     }
                 }

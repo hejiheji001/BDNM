@@ -45,7 +45,8 @@ public class YunOffline implements Runnable {
     private String token;
     private String panToken = "";
     private String source_url;
-    private List<String> source_urls = new ArrayList<>();
+    private String renameFile = "";
+    private List<String[]> source_urls = new ArrayList<>();
     private volatile String newVcode;
     private volatile String newInput;
     private String savepath = "/";
@@ -91,12 +92,13 @@ public class YunOffline implements Runnable {
         this.password = password;
     }
 
-    public YunOffline(String email, String password, String source_url, String path, boolean newThread) {
+    public YunOffline(String email, String password, String[] sourceArr, String path, boolean newThread) {
         this.email = email;
         this.password = password;
-        this.source_url = source_url;
+        this.source_url = sourceArr[0];
         this.newThread = newThread;
         this.savepath = path;
+        iou.appendStringToFile("Item:path=" + sourceArr[1] + ",oldName=" + sourceArr[2] + ",newName=" + sourceArr[3], "rename.txt");
     }
 
     public YunOffline(String panToken, String source_url, String newVcode, String newInput) {
@@ -106,12 +108,23 @@ public class YunOffline implements Runnable {
         this.newInput = newInput;
     }
 
-    public YunOffline(String email, String password, String path, boolean newThread, List<String> source_urls) {
+    public YunOffline(String email, String password, String path, boolean newThread, List<String[]> source_urls) {
         this.email = email;
         this.password = password;
         this.newThread = newThread;
         this.savepath = path;
         this.source_urls = source_urls;
+        for (String[] s : source_urls) {
+            s[1] = path;
+            iou.appendStringToFile("Item:path=" + path + ",oldName=" + s[2] + ",newName=" + s[3], "rename.txt");
+        }
+    }
+
+    public YunOffline(String email, String password, String renameFile, boolean newThread) {
+        this.email = email;
+        this.password = password;
+        this.newThread = newThread;
+        this.renameFile = renameFile;
     }
 
     public static void main(String[] args) {
@@ -148,7 +161,7 @@ public class YunOffline implements Runnable {
                         e.printStackTrace();
                     }
                     break;
-                case "-h":
+                case "-r":
                     break;
             }
         }
@@ -502,6 +515,7 @@ public class YunOffline implements Runnable {
                 System.out.println("添加任务成功!/Success! ID:" + taskid);
             } else {
                 System.out.println("未知错误/Unknown Error" + result);
+                flag = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -516,20 +530,34 @@ public class YunOffline implements Runnable {
             if(initYunPan()){
                 getYunPanToken();
                 boolean flag;
-                if (source_urls.size() == 0) {
-                    flag = saveToYunPan(newVcode, newInput);
-                    if (!flag) {
-                        System.out.println("Try Again With Code " + newInput);
-                        saveToYunPan(newVcode, newInput);
-                    }
-                } else {
-                    for (String s : source_urls) {
-                        this.source_url = s;
+
+                if (renameFile.isEmpty()) {
+                    if (source_urls.size() == 0) {
                         flag = saveToYunPan(newVcode, newInput);
-                        if (!flag) {
-                            System.out.println("Try Again With Code " + newInput);
-                            saveToYunPan(newVcode, newInput);
-                        } else {
+                        while (!flag) {
+                            System.out.println("Rest 5 seconds and try again with code " + newInput);
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            flag = saveToYunPan(newVcode, newInput);
+                        }
+                    } else {
+                        for (String[] s : source_urls) {
+                            this.source_url = s[0];
+                            flag = saveToYunPan(newVcode, newInput);
+
+                            while (!flag) {
+                                System.out.println("Rest 5 seconds and try again with code " + newInput);
+                                try {
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                flag = saveToYunPan(newVcode, newInput);
+                            }
+
                             System.out.println("Rest 5 seconds");
                             try {
                                 Thread.sleep(5000);
@@ -537,8 +565,20 @@ public class YunOffline implements Runnable {
                                 e.printStackTrace();
                             }
                         }
+                        System.out.println("转存完成/Finished! You can rename all tasks afterwards");
                     }
-                    System.out.println("Finished!");
+                } else {
+                    String[] content = iou.getStringFromFile(renameFile).split("Item:");
+                    for (String c : content) {
+                        if (!c.isEmpty()) {
+                            String[] info = c.split(",");
+                            String path = info[0].split("=")[1];
+                            String oldName = info[1].split("=")[1];
+                            String newName = info[2].split("=")[1];
+                            renameFile(path, oldName, newName);
+                        }
+                    }
+                    System.out.println("批量改名完成/All Tasks Finished!");
                 }
             }
         } else {

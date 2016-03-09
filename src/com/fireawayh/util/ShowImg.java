@@ -129,4 +129,28 @@ public class ShowImg extends JFrame implements Runnable {
             return true;
         }
     }
+
+    public String getYunToken() {
+        return yunToken;
+    }
+
+    public void setYunToken(String yunToken) {
+        this.yunToken = yunToken;
+    }
+
+    public String getNewVcode() {
+        return newVcode;
+    }
+
+    public void setNewVcode(String newVcode) {
+        this.newVcode = newVcode;
+    }
+
+    public String getSource_url() {
+        return source_url;
+    }
+
+    public void setSource_url(String source_url) {
+        this.source_url = source_url;
+    }
 }
