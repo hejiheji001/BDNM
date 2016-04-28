@@ -72,7 +72,9 @@ public class ShowGUI extends JFrame implements Runnable {
         frame.add(sourceURL);
         frame.add(pathLabel);
         frame.add(path);
-        sourceURL.setText(sourceArr[0]);
+        if (sourceArr != null) {
+            sourceURL.setText(sourceArr[0]);
+        }
         frame.add(start);
         frame.add(stop);
         frame.setLayout(new FlowLayout());
@@ -177,14 +179,12 @@ public class ShowGUI extends JFrame implements Runnable {
                             t.setName("New Thread Download");
                             t.start();
                         } else {
-                            if (sourceArr[0].indexOf("rename") > -1) {
+                            if (sourceArr != null && sourceArr[0].indexOf("rename") > -1) {
                                 Thread t = new Thread(new YunOffline(userName, password, sourceArr[1], true));
                                 t.setName("New Thread Rename");
                                 t.start();
                             } else {
-                                sourceArr[0] = source;
-                                sourceArr[1] = pathText;
-                                Thread t = new Thread(new YunOffline(userName, password, sourceArr, pathText, true));
+                                Thread t = new Thread(new YunOffline(userName, password, new String[]{source, pathText, "", ""}, pathText, true));
                                 t.setName("New Thread Download");
                                 t.start();
                             }

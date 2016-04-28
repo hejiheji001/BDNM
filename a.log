@@ -1075,3 +1075,137 @@ Save userinfo.properties To File
 未知错误/Unknown Error  
  
 {"error_code":36001,"error_msg":"param error","request_id":772289536344684383}
+Save userinfo.properties To File
+Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+	at com.fireawayh.util.ShowGUI$3.mouseClicked(ShowGUI.java:182)
+	at java.awt.Component.processMouseEvent(Component.java:6538)
+	at java.awt.Component.processEvent(Component.java:6300)
+	at java.awt.Button.processEvent(Button.java:380)
+	at java.awt.Component.dispatchEventImpl(Component.java:4891)
+	at java.awt.Component.dispatchEvent(Component.java:4713)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Save userinfo.properties To File
+Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException
+	at com.fireawayh.util.ShowGUI$3.mouseClicked(ShowGUI.java:187)
+	at java.awt.Component.processMouseEvent(Component.java:6538)
+	at java.awt.Component.processEvent(Component.java:6300)
+	at java.awt.Button.processEvent(Button.java:380)
+	at java.awt.Component.dispatchEventImpl(Component.java:4891)
+	at java.awt.Component.dispatchEvent(Component.java:4713)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Exception "java.lang.ClassNotFoundException: com/intellij/codeInsight/editorActions/FoldingData"while constructing DataFlavor for: application/x-java-jvm-local-objectref; class=com.intellij.codeInsight.editorActions.FoldingData
+Exception "java.lang.ClassNotFoundException: com/intellij/codeInsight/editorActions/FoldingData"while constructing DataFlavor for: application/x-java-jvm-local-objectref; class=com.intellij.codeInsight.editorActions.FoldingData
+Save userinfo.properties To File
+Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 2
+	at com.fireawayh.main.YunOffline.<init>(YunOffline.java:110)
+	at com.fireawayh.util.ShowGUI$3.mouseClicked(ShowGUI.java:187)
+	at java.awt.Component.processMouseEvent(Component.java:6538)
+	at java.awt.Component.processEvent(Component.java:6300)
+	at java.awt.Button.processEvent(Button.java:380)
+	at java.awt.Component.dispatchEventImpl(Component.java:4891)
+	at java.awt.Component.dispatchEvent(Component.java:4713)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Save userinfo.properties To File
+New Thread
+正在验证登录状态.../Checking Login Status...
+Get Cookie From File
+正在登录百度.../Login Now...
+正在设置token参数.../Getting Login Token...
+Save logintoken.properties To File
+token ： d628a487760204086ecc358c55ea2dee
+请输入验证码
+Need Captcha
+Enter Captcha
+Get Code: 6SGV使用验证码重新登录.../Login Again With Verify Code...
+正在验证登录状态.../Checking Login Status...
+正在登录百度.../Login Now...
+正在设置token参数.../Getting Login Token...
+Save logintoken.properties To File
+token ： d628a487760204086ecc358c55ea2dee
+未知错误 400037
+Save userinfo.properties To File
+New Thread
+正在验证登录状态.../Checking Login Status...
+Get Cookie From File
+正在登录百度.../Login Now...
+正在设置token参数.../Getting Login Token...
+Save logintoken.properties To File
+token ： d628a487760204086ecc358c55ea2dee
+请输入验证码
+Need Captcha
+Enter Captcha
+Get Code: CDG5使用验证码重新登录.../Login Again With Verify Code...
+正在验证登录状态.../Checking Login Status...
+正在登录百度.../Login Now...
+正在设置token参数.../Getting Login Token...
+Save logintoken.properties To File
+token ： d628a487760204086ecc358c55ea2dee
+未知错误 400037
+Save userinfo.properties To File
+New Thread
+正在验证登录状态.../Checking Login Status...
+Get Cookie From File
+正在登录百度.../Login Now...
+正在设置token参数.../Getting Login Token...
+Save logintoken.properties To File
+token ： d628a487760204086ecc358c55ea2dee
+请输入验证码
+Need Captcha
+Enter Captcha
+Get Code: tggl使用验证码重新登录.../Login Again With Verify Code...
+正在验证登录状态.../Checking Login Status...
+正在登录百度.../Login Now...
+正在设置token参数.../Getting Login Token...
+Save logintoken.properties To File
+token ： d628a487760204086ecc358c55ea2dee

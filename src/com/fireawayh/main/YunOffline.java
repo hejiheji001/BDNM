@@ -53,10 +53,6 @@ public class YunOffline implements Runnable {
     private boolean loginVcode = true;
     private boolean newThread = false;
     private BasicCookieStore cookieStore = new BasicCookieStore();
-//    private String path;
-//    private String oldName;
-//    private String newName;
-
     private String[][] err = new String[][]{
             {"-1", "系统错误,请您稍后再试"},
             {"1", "您输入的帐号格式不正确"},
@@ -83,14 +79,17 @@ public class YunOffline implements Runnable {
             {"110024", "此帐号暂未激活"},
             {"100023", "开启Cookie之后才能登录"},
             {"17", "您的帐号已锁定,请解锁后登录'http://passport.baidu.com/v2/?ucenterfeedback#login_10"},
-            {"400401", "未知错误 400401"},
-            {"400037", "未知错误 400037"}
+            {"400401", "未知错误 400401 可能需要在网页端重新登陆后进行手机验证"},
+            {"400037", "未知错误 400037 可能需要在网页端重新登陆后进行手机验证"}
     };
 
     public YunOffline(String email, String password) {
         this.email = email;
         this.password = password;
     }
+//    private String path;
+//    private String oldName;
+//    private String newName;
 
     public YunOffline(String email, String password, String[] sourceArr, String path, boolean newThread) {
         this.email = email;
@@ -98,7 +97,9 @@ public class YunOffline implements Runnable {
         this.source_url = sourceArr[0];
         this.newThread = newThread;
         this.savepath = path;
-        iou.appendStringToFile("Item:path=" + sourceArr[1] + ",oldName=" + sourceArr[2] + ",newName=" + sourceArr[3], "rename.txt");
+        if (sourceArr[2] != "") {
+            iou.appendStringToFile("Item:path=" + sourceArr[1] + ",oldName=" + sourceArr[2] + ",newName=" + sourceArr[3], "rename.txt");
+        }
     }
 
     public YunOffline(String panToken, String source_url, String newVcode, String newInput) {
@@ -165,6 +166,14 @@ public class YunOffline implements Runnable {
                     break;
             }
         }
+    }
+
+    public BasicCookieStore getCookieStore() {
+        return cookieStore;
+    }
+
+    public void setCookieStore(BasicCookieStore cookieStore) {
+        this.cookieStore = cookieStore;
     }
 
 //    public synchronized void captchaSetter(String v, String c) {
@@ -472,7 +481,7 @@ public class YunOffline implements Runnable {
         loginVcode = false;
         System.err.println("百度云Token/YunPan Token: " + panToken);
         try {
-            String saveUrl = "http://pan.baidu.com/rest/2.0/services/cloud_dl?channel=chunlei&clienttype=0&web=1&bdstoken=" + panToken;
+            String saveUrl = "http://pan.baidu.com/rest/2.0/services/cloud_dl?channel=chunlei&clienttype=0&web=1&app_id=250528&bdstoken=" + panToken;
             String method = "add_task";
             String app_id = "250528";
             String save_path = getSavepath();
