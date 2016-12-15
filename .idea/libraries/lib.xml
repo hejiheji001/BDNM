@@ -5,6 +5,7 @@
       <root url="jar://$PROJECT_DIR$/lib/httpclient-4.3.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.6.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/httpcore-4.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javafx-mx.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
